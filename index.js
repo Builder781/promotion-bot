@@ -5,8 +5,8 @@ const app = express();
 app.use(express.json());
 
 const ROBLOSECURITY = process.env.ROBLOSECURITY; // 環境変数から読み取り
-const GROUP_ID = 12345678; // ←変更する
-const TARGET_RANK = 2;
+const GROUP_ID = 35148239; // ←変更する
+const TARGET_RANK = 3;
 
 (async () => {
   await noblox.setCookie(ROBLOSECURITY);
