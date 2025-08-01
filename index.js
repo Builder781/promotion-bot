@@ -46,7 +46,7 @@ app.post("/promote", async (req, res) => {
     // 昇格処理
     try {
       await noblox.setRank(GROUP_ID, userId, TARGET_RANK);
-      console.log(✅ ${username} をランク${TARGET_RANK}に昇格しました);
+      console.log(`✅ ${username} をランク${TARGET_RANK}に昇格しました`);
       res.status(200).send(Promoted ${username} to rank ${TARGET_RANK});
     } catch (e) {
       console.error("❌ setRank失敗:", e);
