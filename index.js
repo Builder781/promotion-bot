@@ -4,7 +4,7 @@ const noblox = require("noblox.js");
 const app = express();
 app.use(express.json());
 
-const ROBLOSECURITY = const ROBLOSECURITY = process.env.ROBLOSECURITY;  // Renderの環境変数名に合わせる
+const ROBLOSECURITY = process.env.ROBLOSECURITY;  // Renderの環境変数名に合わせる
 
 const GROUP_ID = 35148239; // あなたのグループIDに変更してください
 const TARGET_RANK = 5;     // 昇格させたいランク番号
