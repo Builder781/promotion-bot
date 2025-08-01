@@ -7,11 +7,11 @@ app.use(express.json());
 // 環境変数からセキュリティCookie取得
 const ROBLOSECURITY = process.env.ROBLOSECURITY;
 
-// 設定
-const GROUP_ID = 35148239; // ← ここを自分のグループIDに変える
-const TARGET_RANK = 5;     // ← 昇格先のランク番号に変える
+// 設定（自分のグループIDと昇格先ランクに変更してください）
+const GROUP_ID = 35148239;
+const TARGET_RANK = 5;
 
-// Cookieからログイン処理
+// Robloxへログイン処理
 async function startBot() {
   try {
     await noblox.setCookie(ROBLOSECURITY);
@@ -21,10 +21,10 @@ async function startBot() {
   }
 }
 
-// 起動時にログイン
+// サーバー起動時にログインする
 startBot();
 
-// 昇格APIエンドポイント
+// 昇格用APIエンドポイント
 app.post("/promote", async (req, res) => {
   try {
     const { username } = req.body;
@@ -47,7 +47,7 @@ app.post("/promote", async (req, res) => {
     try {
       await noblox.setRank(GROUP_ID, userId, TARGET_RANK);
       console.log(`✅ ${username} をランク${TARGET_RANK}に昇格しました`);
-      res.status(200).send(Promoted ${username} to rank ${TARGET_RANK});
+      res.status(200).send(`${username}を${TARGET_RANK}ランクに昇格しました`);
     } catch (e) {
       console.error("❌ setRank失敗:", e);
       res.status(500).send("Failed to set rank");
@@ -56,3 +56,10 @@ app.post("/promote", async (req, res) => {
     console.error("❌ エラー:", error);
     res.status(500).send("Internal server error");
   }
+});
+
+// Renderでは環境変数 PORT が自動で割り当てられるので利用
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🌐 ポート${PORT}で実行中`);
+});
