@@ -1,17 +1,15 @@
 const express = require("express");
+const cors = require("cors");
 const noblox = require("noblox.js");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-// 環境変数からセキュリティCookie取得
 const ROBLOSECURITY = process.env.ROBLOSECURITY;
+const GROUP_ID = 35148239;
+const TARGET_RANK = 5;
 
-// 設定
-const GROUP_ID = 35148239; // ← ここを自分のグループIDに変える
-const TARGET_RANK = 5;     // ← 昇格先のランク番号に変える
-
-// Cookieからログイン処理
 async function startBot() {
   try {
     await noblox.setCookie(ROBLOSECURITY);
@@ -20,13 +18,12 @@ async function startBot() {
     console.error("❌ Robloxログイン失敗:", err);
   }
 }
-
-// 起動時にログイン
 startBot();
 
-// 昇格APIエンドポイント
 app.post("/promote", async (req, res) => {
   try {
+    console.log("リクエストボディ:", req.body);
+
     const { username } = req.body;
     console.log("📩 リクエスト受信:", username);
 
@@ -43,7 +40,6 @@ app.post("/promote", async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    // 昇格処理
     try {
       await noblox.setRank(GROUP_ID, userId, TARGET_RANK);
       console.log(`✅ ${username} をランク${TARGET_RANK}に昇格しました`);
@@ -58,7 +54,6 @@ app.post("/promote", async (req, res) => {
   }
 });
 
-// ポート設定（RenderではPORTが自動で割り当てられる）
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🌐ポート${PORT}で実行中`);
